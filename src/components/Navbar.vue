@@ -9,17 +9,23 @@
     <ul class="navbar-nav ml-auto">
      
       <li class="nav-item">
-        <router-link  class="nav-link" to="/login">Login</router-link >
-      
-
+        <router-link  class="nav-link" to="/login" v-show="!isAuth">Login</router-link >
       </li>
         
       <li class="nav-item">
-        <router-link  class="nav-link" to="/register">Register</router-link >
-      
-
+        <router-link  class="nav-link" to="/register" v-show="!isAuth">Register</router-link >
       </li>
-
+      <li class="nav-item">
+        <router-link  class="nav-link" to="/resumes" v-show="isAuth">My Resumes</router-link >
+      </li>
+      <li class="nav-item">
+        <router-link  class="nav-link" to="/quizz" v-show="isAuth">Quizzes</router-link >
+      </li>
+      <li class="nav-item">
+          <button  v-show="isAuth" @click="logout" class="btn btn-dark">
+             Log out
+          </button>
+      </li>
     </ul>
   
   </div>
@@ -27,8 +33,39 @@
 </template>
 
 <script>
-export default {
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 
+export default {
+  data(){
+    return {
+      isAuth:false
+    }
+  },
+  methods:{
+      logout(){
+            signOut(auth)
+              .then(() => {
+                  this.$router.push("/login")
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+      }
+  }
+  ,
+    mounted(){
+      onAuthStateChanged(auth, (user) => {
+            if (user) {
+            
+              const uid = user.uid;
+              this.isAuth = true
+            } else {
+              this.isAuth = false
+            }
+      });
+
+    }
 }
 </script>
 
