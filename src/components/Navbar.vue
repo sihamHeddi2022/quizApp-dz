@@ -15,9 +15,7 @@
       <li class="nav-item">
         <router-link  class="nav-link" to="/register" v-show="!isAuth">Register</router-link >
       </li>
-      <li class="nav-item">
-        <router-link  class="nav-link" to="/resumes" v-show="isAuth">My Resumes</router-link >
-      </li>
+ 
       <li class="nav-item">
         <router-link  class="nav-link" to="/quizz" v-show="isAuth">Quizzes</router-link >
       </li>
@@ -58,7 +56,6 @@ export default {
       onAuthStateChanged(auth, (user) => {
             if (user) {
             
-              const uid = user.uid;
               this.isAuth = true
             } else {
               this.isAuth = false

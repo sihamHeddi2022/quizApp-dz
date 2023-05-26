@@ -19,11 +19,9 @@ export default {
       onAuthStateChanged(auth, (user) => {
             if (user) {
             
-              const uid = user.uid;
               this.isAuth = true
             } else {
-              // User is signed out
-              // ...
+              this.isAuth = false
             }
       });
 
